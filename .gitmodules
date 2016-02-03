@@ -1,0 +1,3 @@
+[submodule "nrjavaserial"]
+	path = nrjavaserial
+	url = https://github.com/NeuronRobotics/nrjavaserial.git
