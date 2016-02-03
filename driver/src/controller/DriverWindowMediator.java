@@ -1,6 +1,5 @@
 package controller;
 
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +15,7 @@ import model.DriverModel;
 
 import view.CalibrationScreen;
 import view.DriverWindow;
+import view.OSXCalibrationScreen;
 
 public class DriverWindowMediator {
   private DriverModel model;
@@ -88,7 +88,7 @@ public class DriverWindowMediator {
       this.calibrateButton.setEnabled(true);
     } else {
       this.enableButton.setEnabled(false);
-      // this.calibrateButton.setEnabled(false);
+      this.calibrateButton.setEnabled(false);
     }
   }
 
@@ -108,7 +108,12 @@ public class DriverWindowMediator {
   }
 
   protected void calibrate() {
-    this.calibrationScreen = new CalibrationScreen();
+    String operatingSystem = System.getProperty("os.name");
+    if (operatingSystem.indexOf("mac") != -1) {
+      this.calibrationScreen = new OSXCalibrationScreen();
+    } else {
+      this.calibrationScreen = new CalibrationScreen();
+    }
     this.model.beginCalibration(5);
     this.calibrationScreen.addMouseListener(new MouseListener() {
       private ArrayList<Point> points = new ArrayList<Point>();

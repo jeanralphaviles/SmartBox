@@ -5,11 +5,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -20,17 +17,17 @@ import javax.swing.SwingConstants;
 public class CalibrationScreen extends JFrame {
 
   private static final long serialVersionUID = 1669113969770992986L;
-  private Point targetLocation;
-  private JLabel target;
-  private int width = 100, height = 100;
-  private double[][] scalers = {
+  protected Point targetLocation;
+  protected JLabel target;
+  protected int width = 100, height = 100;
+  protected double[][] scalers = {
     {0.15, 0.15},
     {0.85, 0.15},
     {0.15, 0.85},
     {0.85, 0.85},
     {0.5, 0.5}
   };
-  private int index = 0;
+  protected int index = 0;
 
   public CalibrationScreen() {
     this.setResizable(false);
@@ -55,8 +52,6 @@ public class CalibrationScreen extends JFrame {
     this.nextTarget();
     super.setVisible(visible);
     this.setAlwaysOnTop(visible);
-    com.apple.eawt.FullScreenUtilities.setWindowCanFullScreen(this,true);
-    com.apple.eawt.Application.getApplication().requestToggleFullScreen(this);
   }
 
   public Point getTargetLocation() {
