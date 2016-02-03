@@ -1,4 +1,8 @@
 *.o
 *.hex
+*.classpath
+*.project
+*.settings
+workbench.xmi
 main
 driver/bin/*

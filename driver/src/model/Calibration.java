@@ -1,10 +1,7 @@
 package model;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
-
-import view.CalibrationScreen;
 
 public class Calibration {
   private double ax, ay, bx, by, dx, dy;
@@ -21,15 +18,13 @@ public class Calibration {
 
   // Algorithm from http://www.ti.com/lit/an/slyt277/slyt277.pdf
   public void findCoefficients(ArrayList<Point> screenPoints, ArrayList<Point> cameraPoints) {
+    System.out.println("Screenpoints " + screenPoints.toString());
+    System.out.println("CameraPoints " + cameraPoints.toString());
     double x1 = 0, x2 = 0, x3 = 0, y1 = 0, y2 = 0, y3 = 0, delta, dx1, dx2, dx3, dy1, dy2, dy3, a = 0, b = 0, c = 0,
         d = 0, e = 0;
-    Dimension screenCoordinates = CalibrationScreen.getScreenSize();
     int numPoints = screenPoints.size();
     for (int i = 0; i < numPoints; ++i) {
       // Because of the way the algorithm works, we have to 'invert' the screen coordinates.
-      double tempX = screenPoints.get(i).getX();
-      double tempY = screenCoordinates.getHeight() - screenPoints.get(i).getY();
-      // screenPoints.set(i, new Point((int) tempX, (int) tempY));
       x1 += screenPoints.get(i).getX() * cameraPoints.get(i).getX();
       x2 += screenPoints.get(i).getX() * cameraPoints.get(i).getY();
       x3 += screenPoints.get(i).getX();

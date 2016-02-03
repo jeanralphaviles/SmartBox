@@ -109,7 +109,7 @@ public class DriverWindowMediator {
 
   protected void calibrate() {
     this.calibrationScreen = new CalibrationScreen();
-    this.model.beginCalibration(3);
+    this.model.beginCalibration(5);
     this.calibrationScreen.addMouseListener(new MouseListener() {
       private ArrayList<Point> points = new ArrayList<Point>();
 
@@ -119,9 +119,9 @@ public class DriverWindowMediator {
 
       @Override
       public void mousePressed(MouseEvent e) {
-        Point mousePoint = MouseInfo.getPointerInfo().getLocation();
-        points.add(mousePoint);
-        if (points.size() > 2) {
+        points.add(calibrationScreen.getTargetLocation());
+        calibrationScreen.nextTarget();
+        if (points.size() > 4) {
           calibrationScreen.setVisible(false);
           DriverWindowMediator.this.model.calibrate(points);
         }

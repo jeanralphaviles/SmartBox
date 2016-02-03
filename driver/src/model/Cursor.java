@@ -68,11 +68,19 @@ public class Cursor extends Thread {
               c = this.readChar();
               num.append(c);
             } while (c <= '9' && c >= '0');
-            coordinates[i] = Integer.parseInt(num.toString().trim());
+            try {
+              coordinates[i] = Integer.parseInt(num.toString().trim());
+            } catch (NumberFormatException e) {
+              coordinates[0] = 1023;
+              coordinates[1] = 1023;
+              break;
+            }
           }
           int x = coordinates[0], y = coordinates[1];
           if (x == 1023 && y == 1023) {
-            this.releaseMouse();
+            if (seen == true) {
+              this.releaseMouse();
+            }
             seen = false;
           } else {
             this.mouseMove(coordinates[0], coordinates[1]);
