@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
       }
       printf("\n");
     }
-    delay_ms(10);
+    delay_ms(1);
   }
 }
 

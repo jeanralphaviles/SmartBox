@@ -6,6 +6,8 @@
 
 #define CAMERA 0x58
 
+#define CAMERA_SENSITIVITY 2
+
 // Initializes the infrared camera
 bool init_camera(TWI_t* port);
 
