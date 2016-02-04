@@ -108,7 +108,7 @@ public class DriverWindowMediator {
   }
 
   protected void calibrate() {
-    String operatingSystem = System.getProperty("os.name");
+    String operatingSystem = System.getProperty("os.name").toLowerCase();
     if (operatingSystem.indexOf("mac") != -1) {
       this.calibrationScreen = new OSXCalibrationScreen();
     } else {
