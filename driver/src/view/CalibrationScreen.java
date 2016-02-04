@@ -24,8 +24,7 @@ public class CalibrationScreen extends JFrame {
     {0.15, 0.15},
     {0.85, 0.15},
     {0.15, 0.85},
-    {0.85, 0.85},
-    {0.5, 0.5}
+    {0.85, 0.85}
   };
   protected int index = 0;
 
@@ -64,7 +63,7 @@ public class CalibrationScreen extends JFrame {
     double maxX = screenSize.getWidth();
     double maxY = screenSize.getHeight();
     double[] scaler = scalers[index++];
-    index %= 5;
+    index %= 4;
     targetLocation = new Point((int) (maxX * scaler[0]), (int) (maxY * scaler[1]));
     this.target.setLocation(targetLocation);
     Dimension size = target.getPreferredSize();
