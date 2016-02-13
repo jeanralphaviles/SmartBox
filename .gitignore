@@ -3,6 +3,7 @@
 *.classpath
 *.project
 *.settings
+*.DS_Store
 workbench.xmi
 main
 driver/bin/*
