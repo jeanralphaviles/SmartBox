@@ -48,7 +48,6 @@ public class DriverModel {
     ArrayList<Point> cameraPoints = ((CalibrationCursor)this.cursor).getCameraPoints();
     this.calibration = new Calibration(screenPoints, cameraPoints);
     this.enableCursor();
-    System.out.print("Calibrated");
   }
 
   public void beginCalibration(int numClicks) {

@@ -63,13 +63,14 @@ public class Cursor extends Thread {
           // Next two integers are coordinates
           c = this.readChar(); // Ignore space
           for (int i = 0; i < 2; ++i) {
-            StringBuilder num = new StringBuilder();
+            int j = 0;
+            char[] num = new char[64];
             do {
               c = this.readChar();
-              num.append(c);
+              num[j++] = c;
             } while (c <= '9' && c >= '0');
             try {
-              coordinates[i] = Integer.parseInt(num.toString().trim());
+              coordinates[i] = Integer.parseInt(new String(num).trim());
             } catch (NumberFormatException e) {
               coordinates[0] = 1023;
               coordinates[1] = 1023;
@@ -115,9 +116,12 @@ public class Cursor extends Thread {
   protected char readChar() {
     try {
       while (input.available() == 0) {
+        Thread.sleep(1);
       }
       return (char) input.readByte();
     } catch (IOException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
       e.printStackTrace();
     }
     return '\0';

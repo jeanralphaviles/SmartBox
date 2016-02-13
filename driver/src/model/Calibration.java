@@ -36,9 +36,7 @@ public class Calibration {
             srcMat[ri + 2] * dstMat[c + 8] +
             srcMat[ri + 3] * dstMat[c + 12]
         );
-        System.out.print(warpMatrix[ri + c] + ", ");
       }
-      System.out.println();
     }
   }
 
@@ -136,7 +134,6 @@ public class Calibration {
       result[i] = x * warpMatrix[i] + y * warpMatrix[4 + i] + z * warpMatrix[8 + i] + 1 * warpMatrix[12 + i];
     }
     Point translated = new Point((int)(result[0] / result[3]), (int)(result[1] / result[3]));
-    System.out.println(cameraPoint.toString() + "=>" + translated.toString());
     return translated;
   }
 
