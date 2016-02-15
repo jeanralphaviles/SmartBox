@@ -89,7 +89,7 @@ public class DriverWindowMediator {
       this.calibrateButton.setEnabled(true);
     } else {
       this.enableButton.setEnabled(false);
-      this.calibrateButton.setEnabled(true);
+      this.calibrateButton.setEnabled(false);
     }
   }
 
