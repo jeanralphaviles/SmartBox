@@ -1,4 +1,4 @@
-package view;
+package view.calibration;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,41 +14,40 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-public class CalibrationScreen extends JFrame {
+public class StandardCalibrationScreen extends JFrame implements CalibrationScreen {
 
   private static final long serialVersionUID = 1669113969770992986L;
   protected Point targetLocation;
   protected JLabel target;
   protected int width = 100, height = 100;
+  protected int index = 0;
   protected double[][] scalers = {
     {0.15, 0.15},
     {0.85, 0.15},
     {0.15, 0.85},
     {0.85, 0.85}
   };
-  protected int index = 0;
 
-  public CalibrationScreen() {
+  public StandardCalibrationScreen() {
     this.setResizable(false);
     this.setUndecorated(true);
-    this.setSize(CalibrationScreen.getScreenSize());
+    this.setSize(StandardCalibrationScreen.getScreenSize());
   }
 
   @Override
   public void setVisible(boolean visible) {
-    JLabel label = new JLabel("Click the targets on the screen", SwingConstants.CENTER);
-    label.setFont(new Font("Serif", Font.BOLD, 22));
-    this.add(label);
-    try {
-      Image targetPicture = ImageIO.read(new File("res/target.png")).getScaledInstance(width, height,
-          Image.SCALE_SMOOTH);
-      target = new JLabel(new ImageIcon(targetPicture));
-    } catch (IOException e) {
-      e.printStackTrace();
+    if (visible) {
+      try {
+        Image targetPicture = ImageIO.read(new File("res/target.png")).getScaledInstance(width, height,
+            Image.SCALE_SMOOTH);
+        target = new JLabel(new ImageIcon(targetPicture));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      this.setLayout(null);
+      this.add(target);
+      this.nextTarget();
     }
-    this.setLayout(null);
-    this.add(target);
-    this.nextTarget();
     super.setVisible(visible);
     this.setAlwaysOnTop(visible);
   }
@@ -59,7 +58,7 @@ public class CalibrationScreen extends JFrame {
   }
 
   public void nextTarget() {
-    Dimension screenSize = CalibrationScreen.getScreenSize();
+    Dimension screenSize = StandardCalibrationScreen.getScreenSize();
     double maxX = screenSize.getWidth();
     double maxY = screenSize.getHeight();
     double[] scaler = scalers[index++];

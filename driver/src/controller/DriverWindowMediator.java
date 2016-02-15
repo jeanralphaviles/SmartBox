@@ -13,9 +13,10 @@ import javax.swing.JComboBox;
 
 import model.DriverModel;
 
-import view.CalibrationScreen;
 import view.DriverWindow;
-import view.OSXCalibrationScreen;
+import view.calibration.CalibrationScreen;
+import view.calibration.OSXCalibrationScreen;
+import view.calibration.StandardCalibrationScreen;
 
 public class DriverWindowMediator {
   private DriverModel model;
@@ -88,7 +89,7 @@ public class DriverWindowMediator {
       this.calibrateButton.setEnabled(true);
     } else {
       this.enableButton.setEnabled(false);
-      this.calibrateButton.setEnabled(false);
+      this.calibrateButton.setEnabled(true);
     }
   }
 
@@ -108,12 +109,14 @@ public class DriverWindowMediator {
   }
 
   protected void calibrate() {
+    // Check operating system, Mac needs a special step.
     String operatingSystem = System.getProperty("os.name").toLowerCase();
     if (operatingSystem.indexOf("mac") != -1) {
       this.calibrationScreen = new OSXCalibrationScreen();
     } else {
-      this.calibrationScreen = new CalibrationScreen();
+      this.calibrationScreen = new StandardCalibrationScreen();
     }
+    // Begin calibration with 4 points
     this.model.beginCalibration(4);
     this.calibrationScreen.addMouseListener(new MouseListener() {
       private ArrayList<Point> points = new ArrayList<Point>();
@@ -147,6 +150,7 @@ public class DriverWindowMediator {
     calibrationScreen.setVisible(true);
   }
 
+  // Enable mouse control
   protected void enable() {
     if (enabled) {
       this.model.disableCursor();
