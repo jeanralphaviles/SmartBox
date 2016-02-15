@@ -15,7 +15,6 @@ import model.DriverModel;
 
 import view.DriverWindow;
 import view.calibration.CalibrationScreen;
-import view.calibration.OSXCalibrationScreen;
 import view.calibration.StandardCalibrationScreen;
 
 public class DriverWindowMediator {
@@ -111,8 +110,15 @@ public class DriverWindowMediator {
   protected void calibrate() {
     // Check operating system, Mac needs a special step.
     String operatingSystem = System.getProperty("os.name").toLowerCase();
+    ClassLoader classLoader = ClassLoader.getSystemClassLoader();
     if (operatingSystem.indexOf("mac") != -1) {
-      this.calibrationScreen = new OSXCalibrationScreen();
+      try {
+        Class OSXCalibrationScreen = classLoader.loadClass("view.calibration.OSXCalibrationScreen");
+        this.calibrationScreen = (CalibrationScreen) OSXCalibrationScreen.newInstance();
+      } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+        e.printStackTrace();
+        System.exit(0);
+      }
     } else {
       this.calibrationScreen = new StandardCalibrationScreen();
     }
