@@ -1,21 +1,27 @@
 package model.platform;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
-
-import gnu.io.NRSerialPort;
 
 import model.cursor.Cursor;
 
 public abstract class PlatformReader implements Runnable {
 
   private boolean running = false;
-  private NRSerialPort port;
-  @SuppressWarnings("unchecked")
-  private Set<Cursor>[] registeredCursors = (Set<Cursor>[]) new Object[Blob.values().length];
+  private String port;
+  private ArrayList<Set<Cursor>> registeredCursors = new ArrayList<Set<Cursor>>();
   private Point[] blobs = new Point[Blob.values().length];
   private final Object runLock = new Object();
   private final Object portLock = new Object();
+
+  public PlatformReader() {
+    for (int i = 0; i < Blob.values().length; ++i) {
+      registeredCursors.add(new HashSet<Cursor>());
+      blobs[i] = new Point(1023, 1023);
+    }
+  }
 
   public abstract void run();
 
@@ -37,13 +43,13 @@ public abstract class PlatformReader implements Runnable {
     }
   }
 
-  public void setPort(NRSerialPort port) {
+  public void setPort(String port) {
     synchronized (portLock) {
       this.port = port;
     }
   }
 
-  protected NRSerialPort getPort() {
+  protected String getPort() {
     synchronized (portLock) {
       return this.port;
     }
@@ -51,7 +57,7 @@ public abstract class PlatformReader implements Runnable {
 
   public void registerCursor(Cursor cursor, Blob blob) {
     synchronized (registeredCursors) {
-      registeredCursors[blob.ordinal()].add(cursor);
+      registeredCursors.get(blob.ordinal()).add(cursor);
     }
   }
 
@@ -65,17 +71,24 @@ public abstract class PlatformReader implements Runnable {
 
   private void notifyCursors(Blob blob) {
     synchronized(registeredCursors) {
-      for (Cursor cursor : registeredCursors[blob.ordinal()]) {
-        cursor.notify();
+      for (int i = 0; i < registeredCursors.size(); ++i) {
+        for (Cursor cursor : registeredCursors.get(i)) {
+          cursor.alert();
+        }
       }
     }
   }
 
   protected void writeBlob(Blob blob, Point coordinates) {
+    Point old;
     synchronized (blobs) {
+      old = blobs[blob.ordinal()];
       blobs[blob.ordinal()] = coordinates;
     }
-    notifyCursors(blob);
+    if (old.equals(coordinates)) {
+      // Only notify if the coordinates changed.
+      notifyCursors(blob);
+    }
   }
 
   public Point readBlob(Blob blob) {

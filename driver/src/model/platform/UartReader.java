@@ -4,14 +4,18 @@ import java.awt.Point;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import gnu.io.NRSerialPort;
+
 public class UartReader extends PlatformReader {
   private DataInputStream stream;
+  private final int baud = 9600;
 
   @Override
   public void run() {
     this.begin();
-    this.getPort().connect();
-    stream = new DataInputStream(this.getPort().getInputStream());
+    NRSerialPort serialPort = new NRSerialPort(this.getPort(), baud);
+    serialPort.connect();
+    stream = new DataInputStream(serialPort.getInputStream());
     int[] coordinates = new int[2];
     char[] num = new char[64];
     while (this.isRunning()) {
@@ -31,9 +35,8 @@ public class UartReader extends PlatformReader {
               num[j++] = c;
             } while (Character.isDigit(c));
             try {
-              coordinates[i] = Integer.parseInt(new String(num));
+              coordinates[i] = Integer.parseInt(new String(num).trim());
             } catch (NumberFormatException e) {
-              e.printStackTrace();
               coordinates[0] = 1023;
               coordinates[1] = 1023;
               break;
@@ -49,7 +52,7 @@ public class UartReader extends PlatformReader {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    this.getPort().disconnect();
+    serialPort.disconnect();
   }
 
   private char read() {

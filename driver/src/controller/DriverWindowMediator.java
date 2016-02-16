@@ -85,7 +85,6 @@ public class DriverWindowMediator {
     if (newPort != null && newPort.equals("Select a Serial Port") == false) {
       this.model.setPort(newPort);
       this.enableButton.setEnabled(true);
-      this.calibrateButton.setEnabled(true);
     } else {
       this.enableButton.setEnabled(false);
       this.calibrateButton.setEnabled(false);
@@ -113,7 +112,7 @@ public class DriverWindowMediator {
     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
     if (operatingSystem.indexOf("mac") != -1) {
       try {
-        Class OSXCalibrationScreen = classLoader.loadClass("view.calibration.OSXCalibrationScreen");
+        Class<?> OSXCalibrationScreen = classLoader.loadClass("view.calibration.OSXCalibrationScreen");
         this.calibrationScreen = (CalibrationScreen) OSXCalibrationScreen.newInstance();
       } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
         e.printStackTrace();
@@ -159,12 +158,15 @@ public class DriverWindowMediator {
   // Enable mouse control
   protected void enable() {
     if (enabled) {
-      this.model.disableCursor();
+      this.model.disableCursors();
       enabled = false;
       this.enableButton.setText("Enable");
+      this.calibrateButton.setEnabled(false);
     } else {
-      if (this.model.enableCursor()) {
+      this.model.setNumberOfCursors(1);
+      if (this.model.enableCursors()) {
         this.enableButton.setText("Disable");
+        this.calibrateButton.setEnabled(true);
         enabled = true;
       }
     }
