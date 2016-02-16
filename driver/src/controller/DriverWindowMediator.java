@@ -163,11 +163,13 @@ public class DriverWindowMediator {
       enabled = false;
       this.enableButton.setText("Enable");
       this.calibrateButton.setEnabled(false);
+      this.portPicker.setEnabled(true);
     } else {
       this.model.setNumberOfCursors(1);
       if (this.model.enableCursors()) {
         this.enableButton.setText("Disable");
         this.calibrateButton.setEnabled(true);
+        this.portPicker.setEnabled(false);
         enabled = true;
       }
     }
