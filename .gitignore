@@ -4,6 +4,8 @@
 *.project
 *.settings
 *.DS_Store
+*~
+*.tmp
 workbench.xmi
 main
 driver/bin/*
