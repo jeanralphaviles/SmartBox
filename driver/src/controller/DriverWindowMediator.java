@@ -136,6 +136,7 @@ public class DriverWindowMediator {
         calibrationScreen.nextTarget();
         if (points.size() > 3) {
           calibrationScreen.setVisible(false);
+          calibrationScreen.dispose();
           DriverWindowMediator.this.model.calibrate(points);
         }
       }

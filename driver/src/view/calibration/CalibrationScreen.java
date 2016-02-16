@@ -16,4 +16,7 @@ public interface CalibrationScreen {
 
   public void addMouseListener(MouseListener l);
 
+  // Destroys the Window
+  public void dispose();
+
 }
