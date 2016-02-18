@@ -26,6 +26,7 @@ public class DriverWindow extends JFrame {
     // Dropdown and Refresh button
     JPanel portPanel = new JPanel();
     portPanel.setLayout(new BoxLayout(portPanel, BoxLayout.X_AXIS));
+    portPicker.setPrototypeDisplayValue("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
     portPanel.add(portPicker);
     portPanel.add(refreshButton);
     panel.add(portPanel);
@@ -48,7 +49,6 @@ public class DriverWindow extends JFrame {
     // Window
     this.pack();
     this.setTitle("Smartboard Driver");
-    this.setSize(300, 200);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
