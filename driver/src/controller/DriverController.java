@@ -17,7 +17,7 @@ import view.DriverWindow;
 import view.calibration.CalibrationScreen;
 import view.calibration.StandardCalibrationScreen;
 
-public class DriverWindowMediator {
+public class DriverController {
   private DriverModel model;
   private CalibrationScreen calibrationScreen;
   private DriverWindow view;
@@ -27,7 +27,7 @@ public class DriverWindowMediator {
   private JComboBox<String> portPicker;
   private boolean enabled;
 
-  public DriverWindowMediator() {
+  public DriverController() {
     view = new DriverWindow();
     model = new DriverModel();
     enabled = false;
@@ -45,7 +45,7 @@ public class DriverWindowMediator {
     this.portPicker.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        DriverWindowMediator.this.changePort();
+        DriverController.this.changePort();
       }
     });
   }
@@ -55,7 +55,7 @@ public class DriverWindowMediator {
     this.refreshButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        DriverWindowMediator.this.refresh();
+        DriverController.this.refresh();
       }
     });
   }
@@ -65,7 +65,7 @@ public class DriverWindowMediator {
     this.calibrateButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        DriverWindowMediator.this.calibrate();
+        DriverController.this.calibrate();
       }
     });
   }
@@ -75,7 +75,7 @@ public class DriverWindowMediator {
     this.enableButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        DriverWindowMediator.this.enable();
+        DriverController.this.enable();
       }
     });
   }
@@ -137,7 +137,7 @@ public class DriverWindowMediator {
         if (points.size() > 3) {
           calibrationScreen.setVisible(false);
           calibrationScreen.dispose();
-          DriverWindowMediator.this.model.calibrate(points);
+          DriverController.this.model.calibrate(points);
         }
       }
 

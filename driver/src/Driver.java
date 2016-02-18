@@ -1,6 +1,6 @@
 import java.awt.EventQueue;
 
-import controller.DriverWindowMediator;
+import controller.DriverController;
 
 public class Driver {
 
@@ -8,7 +8,7 @@ public class Driver {
     EventQueue.invokeLater(new Runnable() {
       @Override
       public void run() {
-        DriverWindowMediator controller = new DriverWindowMediator();
+        DriverController controller = new DriverController();
         controller.init();
       }
     });

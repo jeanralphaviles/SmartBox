@@ -6,13 +6,13 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controller.DriverWindowMediator;
+import controller.DriverController;
 
 public class DriverWindow extends JFrame {
 
   private static final long serialVersionUID = 4851854411789454130L;
 
-  public void init(DriverWindowMediator controller) {
+  public void init(DriverController controller) {
     // Window Components
     JComboBox<String> portPicker = new JComboBox<String>();
     JButton refreshButton = new JButton("Refresh");
@@ -39,7 +39,7 @@ public class DriverWindow extends JFrame {
     
     this.add(panel);
 
-    // Mediator
+    // Controller
     controller.registerPortPicker(portPicker);
     controller.registerRefreshButton(refreshButton);
     controller.registerCalibrateButton(calibrateButton);
