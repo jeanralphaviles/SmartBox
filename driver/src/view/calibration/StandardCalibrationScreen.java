@@ -38,7 +38,7 @@ public class StandardCalibrationScreen extends JFrame implements CalibrationScre
   public void setVisible(boolean visible) {
     if (visible) {
       try {
-        Image targetPicture = ImageIO.read(new File("res/target.png")).getScaledInstance(width, height,
+        Image targetPicture = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("target.png")).getScaledInstance(width, height,
             Image.SCALE_SMOOTH);
         target = new JLabel(new ImageIcon(targetPicture));
       } catch (IOException e) {
