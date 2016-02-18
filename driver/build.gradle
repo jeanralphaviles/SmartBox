@@ -23,6 +23,25 @@ repositories {
   mavenCentral()
 }
 
+jar {
+  manifest {
+    attributes 'Main-Class': 'Driver'
+  }
+  from {
+    configurations.compile.collect {
+      it.isDirectory() ? it : zipTree(it)
+    }
+  }
+}
+
+uploadArchives {
+  repositories {
+    flatDir {
+      dirs 'libs'
+    }
+  }
+}
+
 task make() {
   try {
     Class.forName('com.apple.eawt.FullScreenUtilities');
