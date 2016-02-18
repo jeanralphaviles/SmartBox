@@ -1,3 +1,0 @@
-[submodule "driver/nrjavaserial"]
-	path = driver/nrjavaserial
-	url = https://github.com/NeuronRobotics/nrjavaserial.git

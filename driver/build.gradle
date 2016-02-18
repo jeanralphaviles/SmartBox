@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'application'
 
@@ -17,15 +16,11 @@ sourceSets {
 }
 
 dependencies {
-  compile project(':nrjavaserial')
-  compile fileTree(dir: 'nrjavaserial', include: ['*.jar'])
+  compile "com.neuronrobotics:nrjavaserial:3.11.0"
 }
 
 repositories {
   mavenCentral()
-  maven {
-    url "https://oss.sonatype.org/content/repositories/snapshots"
-  }
 }
 
 task make() {
