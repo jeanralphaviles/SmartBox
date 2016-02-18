@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'maven'
 apply plugin: 'application'
 
 mainClassName = "Driver"
@@ -17,10 +18,14 @@ sourceSets {
 dependencies {
   compile project(':nrjavaserial')
   compile fileTree(dir: 'nrjavaserial', include: ['*.jar'])
+  compile 'org.knowm.xchart:xchart:3.0.1'
 }
 
 repositories {
   mavenCentral()
+  maven {
+    url "https://oss.sonatype.org/content/repositories/snapshots"
+  }
 }
 
 task make() {
