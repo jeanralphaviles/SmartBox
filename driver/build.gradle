@@ -23,9 +23,6 @@ dependencies {
 
 repositories {
   mavenCentral()
-  maven {
-    url "https://oss.sonatype.org/content/repositories/snapshots"
-  }
 }
 
 jar {
@@ -35,14 +32,6 @@ jar {
   from {
     configurations.compile.collect {
       it.isDirectory() ? it : zipTree(it)
-    }
-  }
-}
-
-uploadArchives {
-  repositories {
-    flatDir {
-      dirs 'libs'
     }
   }
 }
