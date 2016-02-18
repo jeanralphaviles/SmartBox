@@ -5,20 +5,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import model.cursor.Cursor;
+import model.Subscriber;
 
 public abstract class PlatformReader implements Runnable {
 
   private boolean running = false;
   private String port;
-  private ArrayList<Set<Cursor>> registeredCursors = new ArrayList<Set<Cursor>>();
+  private ArrayList<Set<Subscriber>> subscribers = new ArrayList<Set<Subscriber>>();
   private Point[] blobs = new Point[Blob.values().length];
   private final Object runLock = new Object();
   private final Object portLock = new Object();
 
   public PlatformReader() {
     for (int i = 0; i < Blob.values().length; ++i) {
-      registeredCursors.add(new HashSet<Cursor>());
+      subscribers.add(new HashSet<Subscriber>());
       blobs[i] = new Point(1023, 1023);
     }
   }
@@ -55,25 +55,25 @@ public abstract class PlatformReader implements Runnable {
     }
   }
 
-  public void registerCursor(Cursor cursor, Blob blob) {
-    synchronized (registeredCursors) {
-      registeredCursors.get(blob.ordinal()).add(cursor);
+  public void register(Subscriber subscriber, Blob blob) {
+    synchronized (subscribers) {
+      subscribers.get(blob.ordinal()).add(subscriber);
     }
   }
 
-  public void unregisterCursor(Cursor cursor) {
-    synchronized (registeredCursors) {
-      for (Set<Cursor> set : registeredCursors) {
-        set.remove(cursor);
+  public void unregister(Subscriber subscriber) {
+    synchronized (subscribers) {
+      for (Set<Subscriber> set : subscribers) {
+        set.remove(subscriber);
       }
     }
   }
 
-  private void notifyCursors(Blob blob) {
-    synchronized(registeredCursors) {
-      for (int i = 0; i < registeredCursors.size(); ++i) {
-        for (Cursor cursor : registeredCursors.get(i)) {
-          cursor.alert();
+  private void notifySubscribers(Blob blob) {
+    synchronized(subscribers) {
+      for (int i = 0; i < subscribers.size(); ++i) {
+        for (Subscriber subscriber : subscribers.get(i)) {
+          subscriber.alert();
         }
       }
     }
@@ -87,7 +87,7 @@ public abstract class PlatformReader implements Runnable {
     }
     if (old.equals(coordinates)) {
       // Only notify if the coordinates changed.
-      notifyCursors(blob);
+      notifySubscribers(blob);
     }
   }
 

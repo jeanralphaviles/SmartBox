@@ -66,5 +66,5 @@ public class UartReader extends PlatformReader {
     }
     return '\0';
   }
-
+;
 }

@@ -3,10 +3,11 @@ package model.cursor;
 import java.awt.Point;
 
 import model.Calibration;
+import model.Subscriber;
 import model.platform.Blob;
 import model.platform.PlatformReader;
 
-public abstract class Cursor implements Runnable {
+public abstract class Cursor implements Runnable, Subscriber {
   private Calibration calibration;
   private PlatformReader reader;
   private Blob blob;
@@ -22,7 +23,7 @@ public abstract class Cursor implements Runnable {
 
   public void run() {
     this.begin();
-    this.reader.registerCursor(this, getBlob());
+    this.reader.register(this, getBlob());
     while (isRunning()) {
       try {
         synchronized (this) {
@@ -35,7 +36,7 @@ public abstract class Cursor implements Runnable {
         this.handleMouseUpdate(mouse);
       }
     }
-    this.reader.unregisterCursor(this);
+    this.reader.unregister(this);
   }
 
   public synchronized void alert() {
