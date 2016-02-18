@@ -85,7 +85,7 @@ public abstract class PlatformReader implements Runnable {
       old = blobs[blob.ordinal()];
       blobs[blob.ordinal()] = coordinates;
     }
-    if (old.equals(coordinates)) {
+    if (old.equals(coordinates) == false) {
       // Only notify if the coordinates changed.
       notifySubscribers(blob);
     }
