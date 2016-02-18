@@ -65,6 +65,10 @@ public class DriverModel {
     this.nCursors = nCursors;
   }
 
+  public PlatformReader getPlatformReader() {
+    return this.reader;
+  }
+
   protected int getNumberOfCursors() {
     return this.nCursors;
   }

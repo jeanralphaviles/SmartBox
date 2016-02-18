@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import model.DriverModel;
 
 import view.DriverWindow;
+import view.GraphView;
 import view.calibration.CalibrationScreen;
 import view.calibration.StandardCalibrationScreen;
 
@@ -21,6 +22,7 @@ public class DriverController {
   private DriverModel model;
   private CalibrationScreen calibrationScreen;
   private DriverWindow view;
+  private GraphView graphView;
   private JButton calibrateButton;
   private JButton enableButton;
   private JButton refreshButton;
@@ -78,6 +80,10 @@ public class DriverController {
         DriverController.this.enable();
       }
     });
+  }
+
+  public void registerGraphView(GraphView graphView) {
+    this.graphView = graphView;
   }
 
   protected void changePort() {
@@ -138,6 +144,7 @@ public class DriverController {
           calibrationScreen.setVisible(false);
           calibrationScreen.dispose();
           DriverController.this.model.calibrate(points);
+          DriverController.this.graphView.subscribe(DriverController.this.model.getPlatformReader());
         }
       }
 
@@ -164,12 +171,15 @@ public class DriverController {
       this.enableButton.setText("Enable");
       this.calibrateButton.setEnabled(false);
       this.portPicker.setEnabled(true);
+      this.refreshButton.setEnabled(true);
     } else {
       this.model.setNumberOfCursors(1);
       if (this.model.enableCursors()) {
         this.enableButton.setText("Disable");
         this.calibrateButton.setEnabled(true);
         this.portPicker.setEnabled(false);
+        this.refreshButton.setEnabled(false);
+        this.graphView.subscribe(this.model.getPlatformReader());
         enabled = true;
       }
     }

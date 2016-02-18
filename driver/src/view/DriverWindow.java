@@ -18,6 +18,7 @@ public class DriverWindow extends JFrame {
     JButton refreshButton = new JButton("Refresh");
     JButton calibrateButton = new JButton("Calibrate");
     JButton enableButton = new JButton("Enable");
+    GraphView graphView = new GraphView();
 
     // Panel
     JPanel panel = new JPanel();
@@ -30,6 +31,9 @@ public class DriverWindow extends JFrame {
     portPanel.add(portPicker);
     portPanel.add(refreshButton);
     panel.add(portPanel);
+
+    // Graph view
+    panel.add(graphView);
 
     // Calibrate and Enable buttons
     JPanel buttonPanel = new JPanel();
@@ -45,6 +49,7 @@ public class DriverWindow extends JFrame {
     controller.registerRefreshButton(refreshButton);
     controller.registerCalibrateButton(calibrateButton);
     controller.registerEnableButton(enableButton);
+    controller.registerGraphView(graphView);
 
     // Window
     this.pack();
